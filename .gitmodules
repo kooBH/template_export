@@ -1,0 +1,9 @@
+[submodule "lib/WAV"]
+	path = lib/WAV
+	url = https://github.com/koobh/WAV
+[submodule "lib/STFT"]
+	path = lib/STFT
+	url = https://github.com/koobh/STFT
+[submodule "lib/ExpirationTimer"]
+	path = lib/ExpirationTimer
+	url = https://github.com/koobh/ExpirationTimer
