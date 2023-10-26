@@ -9,10 +9,63 @@ set(COMPILE_OPTION)
 set(SRC)
 set(INCL)
 
-include(lib/WAV/WAV.cmake)
-include(lib/STFT/cpp/STFT_cpp.cmake)  
-include(lib/ExpirationTimer/chrono/exp_chrono.cmake)  
-  
+include(${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/STFT_cpp.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/lib/ExpirationTimer/chrono/exp_chrono.cmake)
+
+macro(display_elements
+	DISPLAY_MESSAGE
+	LIST_TO_DISPLAY)
+    message("[ ${DISPLAY_MESSAGE} ]")
+    foreach(_DISPLAY_ELEMENT ${LIST_TO_DISPLAY})
+		message(STATUS ${_DISPLAY_ELEMENT})
+    endforeach()
+endmacro()
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/include)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/bin)
+
+####### COPY ##########
+
+# copy lib files
+file(COPY 
+	# TODO
+DESTINATION 
+	${CMAKE_CURRENT_LIST_DIR}/package/include
+)
+# copy lib files
+file(COPY 
+	# TODO
+	DESTINATION 
+	${CMAKE_CURRENT_LIST_DIR}/package/bin/
+)
+
+if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/build/Release/mpAB.dll)
+file(COPY 
+	# TODO
+	${CMAKE_CURRENT_LIST_DIR}/build/Release/.lib
+	${CMAKE_CURRENT_LIST_DIR}/build/Release/.dll
+	DESTINATION 
+	${CMAKE_CURRENT_LIST_DIR}/package/bin/)
+endif()
+
+file(COPY
+	${CMAKE_CURRENT_LIST_DIR}/test.cpp
+	${CMAKE_CURRENT_LIST_DIR}/README.md
+	
+	DESTINATION
+${CMAKE_CURRENT_LIST_DIR}/package/)
+
+#############################
+
+
+list(APPEND SRC
+)
+
+list(APPEND INCL
+	${CMAKE_CURRENT_LIST_DIR}/package/include
+)
+
 if(NOT MSVC)
 	list(APPEND LINKLIBS
 	# <math.h>
@@ -26,19 +79,6 @@ else()
 	)	
 endif()
 
-list(APPEND SRC	
-	# TODO : Add path to algorithm source here.
-	#
-
-)
-
-	
-list(APPEND INCL
-	src
-)
-
-include (submodule/WAV/WAV.cmake)
-include (submodule/STFT/cpp/STFT_cpp.cmake)
 
 if(NOT MSVC)
 	list(APPEND COMPILE_OPTION
@@ -63,54 +103,33 @@ list(APPEND COMPILE_OPTION
 	)
 endif()
 
+display_elements(COMPILE_OPTION "${COMPILE_OPTION}")
+display_elements(LINKLIBS "${LINKLIBS}")
 
-message("-- using MPDLL")
-message("-- copying headers")
-# do the copying
-set(DLL_HEADERS ${SRC})
-list(FILTER DLL_HEADERS INCLUDE REGEX "^.*\.(h|H)$")
-file(GLOB RM_FILES ${CMAKE_CURRENT_LIST_DIR}/package/include/*)
-list(LENGTH RM_FILES RM_LENS)
-if(RM_LENS EQUAL 0)
-else()
-	file(REMOVE ${RM_FILES})
-endif()
-
-file(COPY 
-${DLL_HEADERS}   
-${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.h
-${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp
-DESTINATION
-${CMAKE_CURRENT_LIST_DIR}/package/include/
-)
-
-
-file(COPY 
-${CMAKE_CURRENT_LIST_DIR}/test.cpp
-${CMAKE_CURRENT_LIST_DIR}/README.md
-DESTINATION
-${CMAKE_CURRENT_LIST_DIR}/package/
-)
-
-file(COPY 
-${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.lib
-${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.dll
-DESTINATION
-${CMAKE_CURRENT_LIST_DIR}/package/
-)
-
-add_executable(${PROJECT_NAME}_test ${SRC} ${CMAKE_CURRENT_LIST_DIR}/test.cpp)
-target_include_directories(${PROJECT_NAME}_test	PRIVATE	${CMAKE_CURRENT_LIST_DIR}/package/include/  )
-#target_link_libraries(${PROJECT_NAME}_test ${LINKLIBS}  ${CMAKE_CURRENT_LIST_DIR}/build/RelWithDebInfo/${PROJECT_NAME}.lib )
-target_link_libraries(${PROJECT_NAME}_test ${LINKLIBS}  ${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.lib )
-target_compile_options(${PROJECT_NAME}_test PRIVATE ${COMPILE_OPTION}  )
-set_target_properties(${PROJECT_NAME}_test PROPERTIES  CXX_STANDARD 14 )
 
 
 add_library(${PROJECT_NAME} SHARED ${SRC})
+add_executable(test_${PROJECT_NAME} 
+	${CMAKE_CURRENT_LIST_DIR}/test.cpp
+	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp
+	)
+
+
 target_include_directories(${PROJECT_NAME}	PRIVATE	${INCL}  )
-target_link_libraries(${PROJECT_NAME} ${LINKLIBS} )
-target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} )
-set_target_properties(${PROJECT_NAME} PROPERTIES  CXX_STANDARD 14 )
+target_include_directories(test_${PROJECT_NAME}	PRIVATE	${INCL}  )
+
+
+target_link_libraries(${PROJECT_NAME} ${LINKLIBS})
+if(MSVC)
+	target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} /D_EXPORT_ )
+	target_link_libraries(test_${PROJECT_NAME} ${LINKLIBS} ${CMAKE_CURRENT_LIST_DIR}/build/Debug/${PROJECT_NAME}.lib)
+else()
+	target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} -D_EXPORT_ )
+	target_link_libraries(test_${PROJECT_NAME} ${LINKLIBS} ${CMAKE_CURRENT_LIST_DIR}/build/${PROJECT_NAME}.so)
+endif()
+target_compile_options(test_${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} )
+
+set_target_properties(${PROJECT_NAME} PROPERTIES  CXX_STANDARD 17)
+set_target_properties(test_${PROJECT_NAME} PROPERTIES  CXX_STANDARD 11 )
 
 
