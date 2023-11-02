@@ -19,10 +19,6 @@ else()
     
 	)	
 endif()
-
-list(APPEND SRC
-	test.cpp
-)
 	
 list(APPEND INCL
 	include
@@ -51,7 +47,7 @@ list(APPEND COMPILE_OPTION
 	)
 endif()
 
-add_executable(${PROJECT_NAME} test.cpp)
+add_executable(${PROJECT_NAME} test.cpp ${CMAKE_CURRENT_LIST_DIR}/include/WAV.cpp)
 target_include_directories(${PROJECT_NAME}	PRIVATE	${INCL}  )
 target_link_libraries(${PROJECT_NAME} ${LINKLIBS}
 ${CMAKE_CURRENT_LIST_DIR}/bin/library_name.lib
