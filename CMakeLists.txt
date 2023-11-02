@@ -29,6 +29,14 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/bin)
 
 # copy lib files
 file(COPY 
+	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.h
+	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp
+	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/STFT.h
+	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/Ooura_FFT.h
+	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/HannWindow.h
+	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/PostProcessor.h
+	${CMAKE_CURRENT_LIST_DIR}/lib/ExpirationTimer/chrono/exp_chrono.h
+ 
 	# TODO
 DESTINATION 
 	${CMAKE_CURRENT_LIST_DIR}/package/include
