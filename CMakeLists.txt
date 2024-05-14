@@ -1,6 +1,6 @@
 # CMAKE version of Ubuntu 16.04 LTS is 3.5.
 cmake_minimum_required(VERSION 3.5)
-project(library_name)
+project(MYLIB)
 
 #find_package(MKL CONFIG REQUIRED)
 
@@ -12,6 +12,7 @@ set(INCL)
 include(${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/STFT_cpp.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/lib/ExpirationTimer/chrono/exp_chrono.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/lib/RtAudioWrapper/RtAudio.cmake)
 
 macro(display_elements
 	DISPLAY_MESSAGE
@@ -27,8 +28,12 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/bin)
 
 ####### COPY ##########
 
-# copy lib files
+# Copy header files
 file(COPY 
+	# TODO
+	${CMAKE_CURRENT_LIST_DIR}/src/algorithm_wrapper.h
+	
+
 	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.h
 	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp
 	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/STFT.h
@@ -36,23 +41,29 @@ file(COPY
 	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/HannWindow.h
 	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/PostProcessor.h
 	${CMAKE_CURRENT_LIST_DIR}/lib/ExpirationTimer/chrono/exp_chrono.h
+	
+	${CMAKE_CURRENT_LIST_DIR}/lib/RtAudioWrapper/RtBase.h
+	${CMAKE_CURRENT_LIST_DIR}/lib/RtAudioWrapper/RtInput.h
+	
+	${CMAKE_CURRENT_LIST_DIR}/lib/RtAudioWrapper/RtAudio
  
-	# TODO
 DESTINATION 
 	${CMAKE_CURRENT_LIST_DIR}/package/include
 )
-# copy lib files
+# Copy dependencies
 file(COPY 
 	# TODO
+	
+	
 	DESTINATION 
 	${CMAKE_CURRENT_LIST_DIR}/package/bin/
 )
 
-if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/build/Release/mpAB.dll)
+if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.dll)
 file(COPY 
 	# TODO
-	${CMAKE_CURRENT_LIST_DIR}/build/Release/.lib
-	${CMAKE_CURRENT_LIST_DIR}/build/Release/.dll
+	${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.lib
+	${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.dll
 	DESTINATION 
 	${CMAKE_CURRENT_LIST_DIR}/package/bin/)
 endif()
@@ -68,6 +79,8 @@ ${CMAKE_CURRENT_LIST_DIR}/package/)
 
 
 list(APPEND SRC
+	src/algorithm_wrapper.h
+	src/algorithm_wrapper.cpp
 )
 
 list(APPEND INCL

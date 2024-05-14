@@ -7,3 +7,6 @@
 [submodule "lib/ExpirationTimer"]
 	path = lib/ExpirationTimer
 	url = https://github.com/koobh/ExpirationTimer
+[submodule "lib/RtAudioWrapper"]
+	path = lib/RtAudioWrapper
+	url = https://github.com/kooBH/RtAudioWrapper.git
