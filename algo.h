@@ -11,11 +11,8 @@
 #define DLL_PREFIX 
 #endif
 
-
 extern "C" DLL_PREFIX void* ALGO_construct();
 extern "C" DLL_PREFIX void ALGO_release(void* obj);
 extern "C" DLL_PREFIX void ALGO_process(void* obj, short* buf_in, short* buf_out);
-
-
 
 #endif
