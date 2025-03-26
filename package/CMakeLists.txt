@@ -1,11 +1,14 @@
-# CMAKE version of Ubuntu 16.04 LTS is 3.5.
-cmake_minimum_required(VERSION 3.5)
-project(test_library)
+cmake_minimum_required(VERSION 3.10)
+project(test)
 
 set(LINKLIBS)
 set(COMPILE_OPTION)
 set(SRC)
 set(INCL)
+
+list(APPEND INCL
+	${CMAKE_CURRENT_LIST_DIR}
+)
 
 if(NOT MSVC)
 	list(APPEND LINKLIBS
@@ -19,15 +22,12 @@ else()
     
 	)	
 endif()
-	
-list(APPEND INCL
-	include
-)
+
 
 if(NOT MSVC)
 	list(APPEND COMPILE_OPTION
 	# openMP
-	  -fopenmp
+	#	  -fopenmp
 	# debugging
 	  -g
 	# -O3 : maximize performace
@@ -47,10 +47,22 @@ list(APPEND COMPILE_OPTION
 	)
 endif()
 
-add_executable(${PROJECT_NAME} test.cpp ${CMAKE_CURRENT_LIST_DIR}/include/WAV.cpp)
+display_elements(COMPILE_OPTION "${COMPILE_OPTION}")
+display_elements(LINKLIBS "${LINKLIBS}")
+
+add_executable(${PROJECT_NAME} 
+	test.cpp
+	WAV.cpp
+	${SRC}
+	)
+
 target_include_directories(${PROJECT_NAME}	PRIVATE	${INCL}  )
-target_link_libraries(${PROJECT_NAME} ${LINKLIBS}
-${CMAKE_CURRENT_LIST_DIR}/bin/library_name.lib
-)
-target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} )
-set_target_properties(${PROJECT_NAME} PROPERTIES  CXX_STANDARD 14 )
+target_link_libraries(${PROJECT_NAME} ${LINKLIBS})
+if(MSVC)
+	target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} )
+else()
+	target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} )
+endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES  CXX_STANDARD 17)
+
+

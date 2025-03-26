@@ -1,11 +1,11 @@
-# CMAKE version of Ubuntu 16.04 LTS is 3.5.
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(MYLIB)
 
 #find_package(MKL CONFIG REQUIRED)
 
 set(LINKLIBS)
 set(COMPILE_OPTION)
+set(SRC_ALGO)
 set(SRC)
 set(INCL)
 
@@ -23,37 +23,23 @@ macro(display_elements
     endforeach()
 endmacro()
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/include)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/bin)
 
 ####### COPY ##########
 
-# Copy header files
+# Copy dependency files
 file(COPY 
-	# TODO
-	${CMAKE_CURRENT_LIST_DIR}/src/algorithm_wrapper.h
-	
-
+	${CMAKE_CURRENT_LIST_DIR}/algo.h
 	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.h
-	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp
-	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/STFT.h
-	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/Ooura_FFT.h
-	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/HannWindow.h
-	${CMAKE_CURRENT_LIST_DIR}/lib/STFT/cpp/PostProcessor.h
-	${CMAKE_CURRENT_LIST_DIR}/lib/ExpirationTimer/chrono/exp_chrono.h
-	
-	${CMAKE_CURRENT_LIST_DIR}/lib/RtAudioWrapper/RtBase.h
-	${CMAKE_CURRENT_LIST_DIR}/lib/RtAudioWrapper/RtInput.h
-	
-	${CMAKE_CURRENT_LIST_DIR}/lib/RtAudioWrapper/RtAudio
- 
+	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp	
+
 DESTINATION 
-	${CMAKE_CURRENT_LIST_DIR}/package/include
+	${CMAKE_CURRENT_LIST_DIR}/package
 )
-# Copy dependencies
+
+# Copy  other dependency binaries
 file(COPY 
 	# TODO
-	
 	
 	DESTINATION 
 	${CMAKE_CURRENT_LIST_DIR}/package/bin/
@@ -62,14 +48,14 @@ file(COPY
 if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.dll)
 file(COPY 
 	# TODO
-	${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.lib
 	${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.dll
 	DESTINATION 
 	${CMAKE_CURRENT_LIST_DIR}/package/bin/)
 endif()
 
+# copy docs
 file(COPY
-	${CMAKE_CURRENT_LIST_DIR}/test.cpp
+
 	${CMAKE_CURRENT_LIST_DIR}/README.md
 	
 	DESTINATION
@@ -77,14 +63,16 @@ ${CMAKE_CURRENT_LIST_DIR}/package/)
 
 #############################
 
-
-list(APPEND SRC
-	src/algorithm_wrapper.h
-	src/algorithm_wrapper.cpp
+list(APPEND SRC_ALGO
+	src/algo_impl.cpp
+	src/algo_wrapper.cpp
+	src/algo_decl.h
+	algo.h
 )
 
 list(APPEND INCL
-	${CMAKE_CURRENT_LIST_DIR}/package/include
+	${CMAKE_CURRENT_LIST_DIR}
+	${CMAKE_CURRENT_LIST_DIR}/src
 )
 
 if(NOT MSVC)
@@ -128,11 +116,10 @@ display_elements(COMPILE_OPTION "${COMPILE_OPTION}")
 display_elements(LINKLIBS "${LINKLIBS}")
 
 
-
-add_library(${PROJECT_NAME} SHARED ${SRC})
+add_library(${PROJECT_NAME} SHARED ${SRC_ALGO})
 add_executable(test_${PROJECT_NAME} 
+	${SRC}
 	${CMAKE_CURRENT_LIST_DIR}/test.cpp
-	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp
 	)
 
 

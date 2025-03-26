@@ -7,7 +7,7 @@
 #include "WAV.h"
 #include <string>
 #include <filesystem>
-#include "algorithm_wrapper.h"
+#include "algo.h"
 #include "RtInput.h"
 #include <time.h> //for check process time
 
@@ -39,12 +39,11 @@ int main() {
 	short* buf_in = new short[n_channel * n_hop];
 	short* buf_out = new short[1* n_hop];
 
-	ALGO* proc = ALGO_construct();
+	void* proc = ALGO_construct();
 
 	
 	#if WAV_OR_MIC
 	// WAV IO
-	WAV input;
 	WAV ref;
 
 	input.OpenFile("input.wav");
@@ -118,40 +117,5 @@ int main() {
 	ALGO_release(proc);
 	
 	return 0;
-}
-
-void AudioProbe(){
-	
-	RtAudio::DeviceInfo info;
-	RtAudio adc;
-    int	nDevice = adc.getDeviceCount();
-	std::cout << "api : " << adc.getCurrentApi() << "\n";
-	if (nDevice < 1) {
-		std::cout << "\nNo audio devices found!\n";
-		exit(-1);
-		return 0;
-	}
-	else {
-		std::cout << "Total Device : " << nDevice << "\n\n";
-		for (int i = 0; i < nDevice; i++) {
-			info = adc.getDeviceInfo(i);
-				if (info.inputChannels >= 1) {
-					std::cout << "device = " << i << "\n";
-					std::cout << "name = " << info.name << "\n";
-					std::cout << "maximum input channels = " << info.inputChannels << "\n";
-					std::cout << "maximum output channels = " << info.outputChannels << "\n";
-					std::cout << "Samplerates : ";
-					for (auto sr : info.sampleRates)
-						std::cout << sr << " ";
-					std::cout << "\n";
-					std::cout << "----------------------------------------------------------" << "\n";
-			}
-		}
-	}
-}
-
-int GetDeviceID(){
-	
-	
 }
 
