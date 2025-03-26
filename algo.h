@@ -13,6 +13,7 @@
 
 extern "C" DLL_PREFIX void* ALGO_construct();
 extern "C" DLL_PREFIX void ALGO_release(void* obj);
-extern "C" DLL_PREFIX void ALGO_process(void* obj, short* buf_in, short* buf_out);
+extern "C" DLL_PREFIX void ALGO_process_int16(void* obj, short* buf_in, short* buf_out);
+extern "C" DLL_PREFIX void ALGO_process_fp32(void* obj, float* buf_in, float* buf_out);
 
 #endif

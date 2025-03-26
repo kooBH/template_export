@@ -130,7 +130,11 @@ target_include_directories(test_${PROJECT_NAME}	PRIVATE	${INCL}  )
 target_link_libraries(${PROJECT_NAME} ${LINKLIBS})
 if(MSVC)
 	target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} /D_EXPORT_ )
-	target_link_libraries(test_${PROJECT_NAME} ${LINKLIBS} ${CMAKE_CURRENT_LIST_DIR}/build/Debug/${PROJECT_NAME}.lib)
+	target_link_libraries(test_${PROJECT_NAME} ${LINKLIBS} 
+	debug ${CMAKE_CURRENT_LIST_DIR}/build/Debug/${PROJECT_NAME}.lib
+    optimized ${CMAKE_CURRENT_LIST_DIR}/build/Release/${PROJECT_NAME}.lib
+	
+	${CMAKE_CURRENT_LIST_DIR}/build/Debug/${PROJECT_NAME}.lib)
 else()
 	target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} -D_EXPORT_ )
 	target_link_libraries(test_${PROJECT_NAME} ${LINKLIBS} ${CMAKE_CURRENT_LIST_DIR}/build/${PROJECT_NAME}.so)

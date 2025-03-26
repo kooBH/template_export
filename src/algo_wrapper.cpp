@@ -4,7 +4,11 @@ void * ALGO_construct() {
 	return new ALGO();
 }
 
-void ALGO_process(void* obj, short* buf_in, short* buf_out) {
+void ALGO_process_int16(void* obj, short* buf_in, short* buf_out) {
+reinterpret_cast<ALGO*>(obj)->Process(buf_in, buf_out);
+}
+
+void ALGO_process_fp32(void* obj, float* buf_in, float* buf_out) {
 reinterpret_cast<ALGO*>(obj)->Process(buf_in, buf_out);
 }
 

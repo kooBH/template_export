@@ -93,7 +93,7 @@ int main() {
 		}
 
 #endif
-		ALGO_process(proc, buf_in, buf_out);
+		ALGO_process_int16(proc, buf_in, buf_out);
 		output.Append(buf_out, n_hop * 1);
 #if !WAV_OR_MIC
 	raw.Append(temp_in, n_channels * n_hop);
