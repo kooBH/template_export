@@ -5,6 +5,7 @@
 #include "exp_chrono.h"
 #include "STFT.h"
 
+// double or float
 #define DTYPE double
 
 class ALGO {
