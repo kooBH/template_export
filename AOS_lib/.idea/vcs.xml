@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../lib/ExpirationTimer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../lib/RtAudioWrapper" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../lib/STFT" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../lib/WAV" vcs="Git" />
+  </component>
+</project>

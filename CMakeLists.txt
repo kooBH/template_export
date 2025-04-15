@@ -64,10 +64,10 @@ ${CMAKE_CURRENT_LIST_DIR}/package/)
 #############################
 
 list(APPEND SRC_ALGO
-	src/algo_impl.cpp
-	src/algo_wrapper.cpp
-	src/algo_decl.h
-	algo.h
+	src/ALGO_impl.cpp
+	src/ALGO_wrap.cpp
+	src/ALGO_decl.h
+	ALGO.h
 )
 
 list(APPEND INCL

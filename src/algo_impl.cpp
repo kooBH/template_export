@@ -1,4 +1,4 @@
-#include "algo_decl.h"
+#include "ALGO_decl.h"
 
 
 ALGO::ALGO() {

@@ -1,4 +1,4 @@
-#include "algo_decl.h"
+#include "ALGO_decl.h"
 
 void * ALGO_construct() {
 	return new ALGO();

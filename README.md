@@ -28,8 +28,10 @@ make로 생성 시에는 라이브러리와 test코드 실행 파일이 같이 �
 + test_File_IO.py에서 data 폴더의 파일을 읽어서 처리함.  
 + test_Mic_IO.py에서 마이크 입력을 받아서 처리함.  
 
-*여기까지의 내용은 배포시 삭제.
-*TODO : 마이크 입출력 C++package
+---
+
+*여기까지의 내용은 배포시 삭제  
+*TODO : 마이크 입출력 C++package  
 
 # ALGO
 
