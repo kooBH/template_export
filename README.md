@@ -5,10 +5,10 @@
 wrapper 선언 헤더, 알고리즘 dll, 예제 코드, 문서 만을 package에 담아서 공유함.  
 
 ## 파일 구성  
-+ algo.h  : (외부 공유) C에서 호출 가능한(및 다른 언어) wrapper 함수 선언만을 담고 있다. 
-+ src/algo_decl.h : (개발 전용) 알고리즘 class가 선언되는 헤더 파일.
-+ src/algo_impl.cpp : (개발 전용) 알고리즘 class의 정의가 있는 소스 코드.
-+ src/algo_wrapper.cpp : (개발 전용) wrapper 함수의 정의가 있는 소스 코드.   
++ ALGO.h  : (외부 공유) C에서 호출 가능한(및 다른 언어) wrapper 함수 선언만을 담고 있다. 
++ src/ALGO_decl.h : (개발 전용) 알고리즘 class가 선언되는 헤더 파일.
++ src/ALGO_impl.cpp : (개발 전용) 알고리즘 class의 정의가 있는 소스 코드.
++ src/ALGO_wrapper.cpp : (개발 전용) wrapper 함수의 정의가 있는 소스 코드.   
 
 ## CMake copy
 cmake 스크립트에서  
