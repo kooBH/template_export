@@ -7,7 +7,7 @@
 #include "WAV.h"
 #include <string>
 #include <filesystem>
-#include "algo.h"
+#include "ALGO.h"
 #include "RtInput.h"
 #include <time.h> //for check process time
 

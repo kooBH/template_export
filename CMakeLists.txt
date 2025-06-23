@@ -29,7 +29,7 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/bin)
 
 # Copy dependency files
 file(COPY 
-	${CMAKE_CURRENT_LIST_DIR}/algo.h
+	${CMAKE_CURRENT_LIST_DIR}/ALGO.h
 	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.h
 	${CMAKE_CURRENT_LIST_DIR}/lib/WAV/WAV.cpp	
 
