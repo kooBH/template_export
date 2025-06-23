@@ -13,9 +13,20 @@ project(ClearSenseProcessor)
 set(PATH_PROCESSOR  ${CMAKE_CURRENT_LIST_DIR}/../../../../../)
 include(${PATH_PROCESSOR}/ALGO.cmake)
 
-if(ANDROID)
-	
-endif()
+set(PATH_ASSET ${${CMAKE_CURRENT_LIST_DIR}/../assets})
+
+
+list(APPEND COMPILE_OPTION
+		# openMP
+		#	  -fopenmp
+		# debugging
+		-g
+		# -O3 : maximize performace
+		# -O2 : maximize performance as long as not increasing size of executable
+		# -O1 : minimize compile time and others are secondary
+		# -Os : minimize size of executable
+		-O3
+)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
 		native-ALGO.cpp
@@ -32,3 +43,5 @@ target_link_libraries(
 		log
 		${LINKLIBS}
 )
+target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} )
+set_target_properties(${PROJECT_NAME} PROPERTIES  CXX_STANDARD 17)
