@@ -1,7 +1,8 @@
-site_name: My Docs
+site_name: ALGO
 nav:
 - Home : index.md
-- About : about.md
+- API : src/basic.md
+- Example : src/example.md
 theme:
   name: material
 use_directory_urls: false
@@ -17,6 +18,19 @@ markdown_extensions:
 
   - pymdownx.arithmatex:
       generic: true
+
+
+copyright: Contact Info
+
+extra:
+  social:
+    - icon : fontawesome/brands/github
+      link: https://github.com
+      name: github
+    - icon: fontawesome/regular/envelope
+      name: Contact via Email
+      link: mailto:your_email@your_host.com
+      
 
 extra_javascript:
   - javascripts/mathjax.js
