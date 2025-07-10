@@ -36,7 +36,12 @@ make로 생성 시에는 라이브러리와 test코드 실행 파일이 같이 �
 # ALGO
 
 ## 요구사항  
-[CMake](https://cmake.org/download/)      
+- [CMake](https://cmake.org/download/)
+- Submodule update
+```
+git submodule init
+git submodule update
+```
 
 ## 사용법
 ```test.cpp```와 ```CMakeLists.txt``` 참고.  
@@ -46,7 +51,7 @@ make로 생성 시에는 라이브러리와 test코드 실행 파일이 같이 �
 ## test코드 빌드
 + Windows
 ```
-<bin 폴더에서>
+<build 폴더에서>
 cmake ..
 ```
 시 비주얼스튜디오 솔루션이 생성됩니다.   
