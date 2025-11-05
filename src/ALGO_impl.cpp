@@ -37,17 +37,32 @@ void ALGO::Process(short* buf_in, short* buf_out) {
 	for (int i = 0; i < n_sources * n_hop; i++) {
     buf_out[i] = static_cast<short>(data_out[i] * 32768.0);
   }
+}
+
+void ALGO::Process(int* buf_in, int* buf_out) {
+	for (int i = 0; i < n_channels * n_hop; i++) {
+		data_in[i] = static_cast<DTYPE>(buf_in[i])/2147483648.0;
+	}
+	process(data_in, data_out);
+	for (int i = 0; i < n_sources * n_hop; i++)
+    buf_out[i] = static_cast<int>(data_out[i] * 2147483648.0);
 
 }
 
-
 void ALGO::Process(float* buf_in, float* buf_out) {
-
-	for (int i = 0; i < n_channels*n_hop; i++)
+  for (int i = 0; i < n_channels*n_hop; i++)
     data_in[i] = static_cast<DTYPE>(buf_in[i]);
   process(data_in, data_out);
   for (int i = 0; i < n_sources*n_hop; i++)
     buf_out[i] = static_cast<float>(data_out[i]);
-
 }
+
+void ALGO::Process(double* buf_in, double* buf_out) {
+	for (int i = 0; i < n_channels*n_hop; i++)
+    data_in[i] = static_cast<DTYPE>(buf_in[i]);
+  process(data_in, data_out);
+  for (int i = 0; i < n_sources*n_hop; i++)
+    buf_out[i] = static_cast<double>(data_out[i]);
+}
+
 

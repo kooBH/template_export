@@ -39,15 +39,28 @@ class ALGO(object):
             raise ValueError(f"Unsupported data type  : {self.dtype}")
 
     def ProcessFP32(self, sample_in):
-        print(f"{type(sample_in)} {sample_in.dtype}")
-        self.lib.ALGO_process_fp32(self.obj,sample_in,self.buf_out)
-        #print(f"ProcessFP32 : {np.sum(np.abs(sample_in))} {np.sum(np.abs(self.buf_out))}")
-        return self.buf_out
+        buf_out =  np.zeros(self.n_hop * self.n_sources,dtype=self.dtype)
+        self.lib.ALGO_process_fp32(self.obj,sample_in,buf_out)
+        #print(f"ProcessFP32 : {np.sum(np.abs(sample_in))} {np.sum(np.abs(buf_out))} {sample_in.dtype} {buf_out.dtype}")
+        return buf_out
+
+    def ProcessFP64(self, sample_in):
+        buf_out =  np.zeros(self.n_hop * self.n_sources,dtype=self.dtype)
+        self.lib.ALGO_process_fp64(self.obj,sample_in,buf_out)
+        #print(f"ProcessFP64 : {np.sum(np.abs(sample_in))} {np.sum(np.abs(buf_out))} {sample_in.dtype} {buf_out.dtype}")
+        return buf_out
     
     def ProcessInt16(self, sample_in):  
-        self.lib.ALGO_process_int16(self.obj,sample_in,self.buf_out)
+        buf_out =  np.zeros(self.n_hop * self.n_sources,dtype=self.dtype)
+        self.lib.ALGO_process_int16(self.obj,sample_in,buf_out)
         #print(f"ProcessInt16 : {np.sum(np.abs(sample_in))} {np.sum(np.abs(self.buf_out))}")
-        return self.buf_out
+        return buf_out
+    
+    def ProcessInt32(self, sample_in):  
+        buf_out =  np.zeros(self.n_hop * self.n_sources,dtype=self.dtype)
+        self.lib.ALGO_process_int32(self.obj,sample_in,buf_out)
+        #print(f"ProcessInt32 : {np.sum(np.abs(sample_in))} {np.sum(np.abs(self.buf_out))}")
+        return buf_out
     
     def Release(self):
         self.lib.ALGO_release(self.obj)

@@ -137,7 +137,7 @@ if(MSVC)
 	${CMAKE_CURRENT_LIST_DIR}/build/Debug/${PROJECT_NAME}.lib)
 else()
 	target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} -D_EXPORT_ )
-	target_link_libraries(test_${PROJECT_NAME} ${LINKLIBS} ${CMAKE_CURRENT_LIST_DIR}/build/${PROJECT_NAME}.so)
+	target_link_libraries(test_${PROJECT_NAME} ${LINKLIBS} ${CMAKE_CURRENT_LIST_DIR}/build/lib${PROJECT_NAME}.so)
 endif()
 target_compile_options(test_${PROJECT_NAME} PRIVATE ${COMPILE_OPTION} )
 

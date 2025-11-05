@@ -24,7 +24,9 @@ public :
 
   // External Interface
   void Process(short* buf_in, short* buf_out);
+  void Process(int* buf_in, int* buf_out);
   void Process(float* buf_in, float* buf_out);
+  void Process(double* buf_in, double* buf_out);
 };
 
 
