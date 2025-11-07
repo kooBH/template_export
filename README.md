@@ -10,6 +10,12 @@ wrapper 선언 헤더, 알고리즘 dll, 예제 코드, 문서 만을 package에
 + src/ALGO_impl.cpp : (개발 전용) 알고리즘 class의 정의가 있는 소스 코드.
 + src/ALGO_wrapper.cpp : (개발 전용) wrapper 함수의 정의가 있는 소스 코드.   
 
+## ALGO 포팅 시 주의 사항
+- ```min```,```max```,```swap``` 등의 매크로 함수가 충돌하기 때문에, ```MPMIN```, ```MPMAX```. ```MPSWAP``` 등으로 변경해서 사용.  
+- MSVC에서는 ```string.h```를 include 하지 않아도 ```memset```이 되지만 다른 컴파일러는 아닌 경우가 있으므로, ```#include <string.h>```를 넣어줘야함.  
+- ```abs```는 MSVC에서는 타입별로 오버로딩이 되어있지만, 다른 컴파일러에서는 아닌 경우가 있으므로, ```fabsf```등으로 타입에 맞게 변경해서 사용.  
+- 그외에도 오버리동 미구현으로 인한 문제가 있을 수 있기 때문에 타입과 함수가 매칭이 잘 되는지 확인 필요.
+
 ## CMake copy
 cmake 스크립트에서  
 wrapper 선언 헤더, 알고리즘 dll, 예제 코드, 문서를 ```cmake``` 수행시 package로 복사하게 되어있음. 
