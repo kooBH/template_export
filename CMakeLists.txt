@@ -25,6 +25,14 @@ endmacro()
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/package/bin)
 
+if(APPLE)
+ set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+ set(CMAKE_SKIP_BUILD_RPATH FALSE)
+ set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+ set(CMAKE_INSTALL_RPATH "@loader_path")
+
+endif()
+
 ####### COPY ##########
 
 # Copy dependency files
@@ -125,7 +133,11 @@ add_executable(test_${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}	PRIVATE	${INCL}  )
 target_include_directories(test_${PROJECT_NAME}	PRIVATE	${INCL}  )
-
+if(APPLE)
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+		INSTALL_NAME_DIR "@rpath"
+	)
+endif()
 
 target_link_libraries(${PROJECT_NAME} ${LINKLIBS})
 if(MSVC)

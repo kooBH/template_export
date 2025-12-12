@@ -36,6 +36,11 @@ make로 생성 시에는 라이브러리와 test코드 실행 파일이 같이 �
 
 ---
 
+## Apple
+- Apple 장비의 경우는 별도의 플래그로 지정을 해줘야 runtime path에서 의존성 라이브러리를 찾음(있는 경우) -> ```CMakeListst.txt``` 의 ```@rpath``` 관련 부분
+
+---
+
 *여기까지의 내용은 배포시 삭제  
 *TODO : 마이크 입출력 C++package  
 

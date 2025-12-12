@@ -8,7 +8,7 @@
 #define DLL_PREFIX  __declspec(dllimport)
 #endif
 #else
-#define DLL_PREFIX 
+#define DLL_PREFIX extern "C"   
 #endif
 
 extern "C" DLL_PREFIX void* ALGO_construct();
