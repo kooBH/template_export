@@ -1,0 +1,27 @@
+# --- Build Artifacts ---
+# Cargo가 생성하는 모든 빌드 결과물 (컴파일된 바이너리, 중간 파일 등)
+/target/
+
+# --- Assets & Shared Objects ---
+# 실행 위치에 복사된 DLL/LIB 파일 (빌드 스크립트로 자동 생성되는 경우만 제외)
+# 만약 원본 DLL이 target 폴더에만 존재한다면 무시해도 되지만, 
+# 관습적으로 target 폴더 전체를 무시하므로 별도 처리는 필요 없습니다.
+
+# --- Locking & Environment ---
+# 라이브러리(Library) 프로젝트인 경우 Cargo.lock을 무시하기도 하지만,
+# 어플리케이션(Executable) 프로젝트라면 의존성 버전 고정을 위해 포함하는 것이 정석입니다.
+# Cargo.lock
+
+# --- IDE & Editor Private Files ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- OS Specific ---
+Thumbs.db
+desktop.ini
+
+*.dll
+*.lib
