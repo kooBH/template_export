@@ -1,58 +1,56 @@
-
 use hound;
-use std::path::Path;
-
-mod ALGO;
+mod ALGO; 
 use ALGO::AlgoEngine;
 
-fn main() -> Result<(), Box<dyn std::error::Error>>{
-    // 1. WAV 파일 및 엔진 초기화
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    const INPUT_CHANNELS: usize = 4;
+    const OUTPUT_CHANNELS: usize = 1;
+
     let mut reader = hound::WavReader::open("input.wav")?;
     let spec = reader.spec();
-    let mut writer = hound::WavWriter::create("output.wav", spec)?;
-    let engine = AlgoEngine::new();
 
-    // 128 샘플 크기의 고정 버퍼 설정
-    const CHUNK_SIZE: usize = 128;
-    let mut input_buffer = vec![0i16; CHUNK_SIZE];
-    let mut output_buffer = vec![0i16; CHUNK_SIZE];
+    if spec.channels as usize != INPUT_CHANNELS {
+        panic!("Input WAV must have {} channels.", INPUT_CHANNELS);
+    }
 
-    // 2. 실시간 처리 루프
+    let mut out_spec = spec;
+    out_spec.channels = OUTPUT_CHANNELS as u16; 
+    let mut writer = hound::WavWriter::create("output.wav", out_spec)?;
+    
+    const SAMPLES_PER_CHANNEL: usize = 128; 
+    const INPUT_CHUNK_SIZE: usize = SAMPLES_PER_CHANNEL * INPUT_CHANNELS; 
+    const OUTPUT_CHUNK_SIZE: usize = SAMPLES_PER_CHANNEL;              
+
+    let mut input_buffer = vec![0i16; INPUT_CHUNK_SIZE];
+    let mut output_buffer = vec![0i16; OUTPUT_CHUNK_SIZE]; 
+
     let mut samples_iter = reader.samples::<i16>();
-    let mut eof = false;
 
-    while !eof {
+    let engine = AlgoEngine::new();
+    loop {
         let mut read_count = 0;
 
-        for i in 0..CHUNK_SIZE {
-            match samples_iter.next() {
-                Some(s) => {
-                    input_buffer[i] = s?;
-                    read_count += 1;
-                }
-                None => {
-                    eof = true;
-                    break;
-                }
-            }
+        let current_chunk = samples_iter.by_ref().take(INPUT_CHUNK_SIZE);
+
+        for (slot, sample) in input_buffer.iter_mut().zip(current_chunk) {
+            *slot = sample?;
+            read_count += 1;
         }
 
         if read_count == 0 { break; }
 
-        if read_count < CHUNK_SIZE {
-            for i in read_count..CHUNK_SIZE {
-                input_buffer[i] = 0;
-            }
+        if read_count < INPUT_CHUNK_SIZE {
+            input_buffer[read_count..].fill(0);
         }
 
         engine.process_i16(&input_buffer, &mut output_buffer);
 
-        for i in 0..read_count {
-            writer.write_sample(output_buffer[i])?;
+        let frames_read = read_count / INPUT_CHANNELS;
+        for &s in &output_buffer[..frames_read] {
+            writer.write_sample(s)?;
         }
     }
 
     writer.finalize()?;
-    println!("Real-time block processing (128 samples) finished.");
     Ok(())
 }
